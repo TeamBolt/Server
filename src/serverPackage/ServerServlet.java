@@ -12,7 +12,7 @@ public class ServerServlet extends HttpServlet {
 		resp.setContentType("text/html");
 		String table = "<head><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"></head>" +
 				"<table id='tab'>" +
-				"<caption>EVENT" + "</caption>" +
+				"<caption>EVENT</caption>" +
 				"<tr>" +
 				"<th> RUN </th>" +
 				"<th> BIB </th>" +
@@ -24,6 +24,7 @@ public class ServerServlet extends HttpServlet {
 				"<script>" +
 				"var text = '" + message + "';" +
 				"var obj = JSON.parse(text);" +
+				"var dnf = 'ignore';" +			
 				"var color = \"even\";" +
 				"var t = obj[0].event;" +		
 				"for (var k in obj) {" +
@@ -32,12 +33,16 @@ public class ServerServlet extends HttpServlet {
 				"} else {" +
 				"color = \"even\";" +
 				"}" +
+				"if (obj[k].elapsed == 'DNF') {" +
+				"dnf = 'dnf';" +
+				"} else {" +
+				"dnf = 'ignore';}" +
 				"document.getElementById('tab').innerHTML += '<tr class=\"' + color + '\">' +" +
 				"'<td>' +  obj[k].run + '</td>' +" +
 				"'<td>' +  obj[k].bib + '</td>' +" +
 				"'<td>' + obj[k].start + '</td>' +" +
-				"'<td>' + obj[k].finish + '</td>' +" +
-				"'<td>' + obj[k].elapsed + '</td>' +" +
+				"'<td class= \"' + dnf + '\">' + obj[k].finish + '</td>' +" +
+				"'<td class= \"' + dnf + '\">' + obj[k].elapsed + '</td>' +" +
 				"'</tr>';" +
 				"}" +
 				"document.getElementById('tab').innerHTML += " +
@@ -45,16 +50,12 @@ public class ServerServlet extends HttpServlet {
 				"</script>";
 
 		resp.getWriter().println(table);
-		System.out.println("message:");
-		System.out.println(message);
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		System.out.println("inside do post");
 		resp.setContentType("text/html");
 		String data = req.getParameter("data");
 		message = data;
-
 	}
 	
 }
