@@ -1,7 +1,5 @@
 package serverPackage;
-
 import java.io.IOException;
-
 import javax.servlet.http.*;
 
 @SuppressWarnings("serial")
@@ -10,15 +8,17 @@ public class ServerServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html");
+
+
 		String table = "<head><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"></head>" +
 				"<table id='tab'>" +
 				"<caption>EVENT</caption>" +
 				"<tr>" +
 				"<th> RUN </th>" +
-				"<th> BIB </th>" +
-				"<th> START </th>" +
-				"<th> FINISH </th>" +
-				"<th> ELAPSED </th>" +
+				"<th><a id='bibs' href=\"server\"> BIB </a></th>" +
+				"<th><a href=\"server\"> START </a></th>" +
+				"<th><a href=\"server\"> FINISH </a></th>" +
+				"<th><a href=\"server\"> ELAPSED </a></th>" +
 				"</tr>" +
 				"</table>" +
 				"<script>" +
@@ -55,8 +55,9 @@ public class ServerServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html");
 		String data = req.getParameter("data");
+
 		message = data;
+		message = new Participant().sortByElapsed(message);	
 	}
-	
 }
 

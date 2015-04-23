@@ -3,7 +3,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 */
 
-body{
+body {
 	color:black;
 }
 
@@ -15,17 +15,22 @@ table {
 	background-color: black;
 }
 
-caption{
+a:hover {
+	color:red;
+	background-color:white;
+}
+
+caption {
 	color:black;
 	font-size:20px;
 }
 
-th {
+th,a {
 	padding:10px;
 	font-size: 18px;
 	border:solid 1px black;
 	color:white;
-	
+	text-decoration:none;	
 }
 
 tr,td {
