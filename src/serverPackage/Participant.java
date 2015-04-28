@@ -13,10 +13,10 @@ import java.util.Date;
 
 // I think some of us have a different configuration, so use whichever of these two
 // makes eclipse less mad.
-//import com.google.appengine.repackaged.com.google.gson.Gson;
-//import com.google.appengine.repackaged.com.google.gson.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.reflect.TypeToken;
+//import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
 
 public class Participant {
 	private String event, run,bib,start,finish,elapsed;

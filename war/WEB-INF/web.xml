@@ -22,6 +22,60 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/elapseddescending</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>BibAscending</servlet-name>
+		<servlet-class>serverPackage.BibAscending</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BibAscending</servlet-name>
+		<url-pattern>/bibascending</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>BibDescending</servlet-name>
+		<servlet-class>serverPackage.BibDescending</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BibDescending</servlet-name>
+		<url-pattern>/bibdescending</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StartAscending</servlet-name>
+		<servlet-class>serverPackage.StartAscending</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StartAscending</servlet-name>
+		<url-pattern>/startascending</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StartDescending</servlet-name>
+		<servlet-class>serverPackage.StartDescending</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StartDescending</servlet-name>
+		<url-pattern>/startdescending</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StopAscending</servlet-name>
+		<servlet-class>serverPackage.StopAscending</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StopAscending</servlet-name>
+		<url-pattern>/stopascending</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StopDescending</servlet-name>
+		<servlet-class>serverPackage.StopDescending</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StopDescending</servlet-name>
+		<url-pattern>/stopdescending</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

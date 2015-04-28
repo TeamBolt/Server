@@ -11,16 +11,24 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
 
 @SuppressWarnings("serial")
-public class ServerServlet extends HttpServlet {
-	private String fastData;
+public class StartAscending extends HttpServlet {
+
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html");
 		
-		// We bypass the datastore on this page so that results can be updated more quickly.
-		String message = Participant.sortByElapsed(fastData);
-		
+		// Get the run from the datastore and sort it.
+		DatastoreService data = DatastoreServiceFactory.getDatastoreService();
+		Query q = new Query("Message");
+		List<Entity> results = data.prepare(q).asList(FetchOptions.Builder.withDefaults());
+		String message = "";
+		if ( !results.isEmpty() ) {
+			Entity e = results.get(results.size()-1);
+			message = (String) e.getProperty("message");
+			
+			message = Participant.sortByStart(message);
+		}
 
-		// Print the data.
+		// Print out the run.
 		String table = "<head><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"></head>" +
 				"<table id='tab'>" +
 				"<caption>EVENT</caption>" +
@@ -29,7 +37,7 @@ public class ServerServlet extends HttpServlet {
 				"<th><a id='bibs' href=\"bibdescending\"> BIB </a></th>" +
 				"<th><a href=\"startdescending\"> START </a></th>" +
 				"<th><a href=\"stopdescending\"> FINISH </a></th>" +
-				"<th><a href=\"elapseddescending\"> ELAPSED </a></th>" +
+				"<th><a href=\"server\"> ELAPSED </a></th>" +
 				"</tr>" +
 				"</table>" +
 				"<script>" +
@@ -61,34 +69,6 @@ public class ServerServlet extends HttpServlet {
 				"</script>";
 
 		resp.getWriter().println(table);
-	}
-
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/html");
-		String data = req.getParameter("data");
-		fastData = data;
-		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-		
-
-		Query q = new Query("Message");
-		List<Entity> list = ds.prepare(q).asList(FetchOptions.Builder.withDefaults());
-		if ( !list.isEmpty() ) {
-			// Look at the last thing in the datastore
-			Entity laste = list.get(list.size()-1);
-			String last = (String) laste.getProperty("message");
-			
-			// If it's identical to the new data, do nothing, otherwise
-			// clear out old data and create new data.
-			if ( !last.equals(data) ) {
-				for (Entity p : list) {
-					ds.delete(p.getKey());
-				}
-				
-				Entity e = new Entity("Message");
-				e.setProperty("message", data);
-				ds.put(e);
-			}
-		}
 	}
 }
 

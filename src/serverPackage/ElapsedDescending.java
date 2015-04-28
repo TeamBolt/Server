@@ -19,12 +19,14 @@ public class ElapsedDescending extends HttpServlet {
 		// Get the run from the datastore and sort it.
 		DatastoreService data = DatastoreServiceFactory.getDatastoreService();
 		Query q = new Query("Message");
-		List<Entity> m = data.prepare(q).asList(FetchOptions.Builder.withDefaults());
+		List<Entity> results = data.prepare(q).asList(FetchOptions.Builder.withDefaults());
 		String message = "";
-		for (Entity p : m) {
-			message = (String) p.getProperty("message");
+		if ( !results.isEmpty() ) {
+			Entity e = results.get(results.size()-1);
+			message = (String) e.getProperty("message");
+			
+			message = Participant.ReverseSortByElapsed(message);
 		}
-		message = Participant.ReverseSortByElapsed(message);
 
 		// Print out the run.
 		String table = "<head><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"></head>" +
@@ -32,9 +34,9 @@ public class ElapsedDescending extends HttpServlet {
 				"<caption>EVENT</caption>" +
 				"<tr>" +
 				"<th> RUN </th>" +
-				"<th><a id='bibs' href=\"server\"> BIB </a></th>" +
-				"<th><a href=\"server\"> START </a></th>" +
-				"<th><a href=\"server\"> FINISH </a></th>" +
+				"<th><a id='bibs' href=\"bibdescending\"> BIB </a></th>" +
+				"<th><a href=\"startdescending\"> START </a></th>" +
+				"<th><a href=\"stopdescending\"> FINISH </a></th>" +
 				"<th><a href=\"server\"> ELAPSED </a></th>" +
 				"</tr>" +
 				"</table>" +
