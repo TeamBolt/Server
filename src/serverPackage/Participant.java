@@ -5,8 +5,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+// I think some of us have a different configuration, so use whichever of these two
+// makes eclipse less mad.
+import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.reflect.TypeToken;
+//import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
 
 
 public class Participant {
@@ -29,7 +33,7 @@ public class Participant {
 				", start: " + start + ", finish: " + finish + ",  elapsed: " + elapsed;
 	}
 
-	public String sortByElapsed(String str){
+	public static String sortByElapsed(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
 		Collections.sort(convertedPs,new CompareElapsed());
@@ -38,7 +42,7 @@ public class Participant {
 		return new Gson().toJson(convertedPs);
 	}
 
-	public String ReverseSortByElapsed(String str){
+	public static String ReverseSortByElapsed(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
 		Collections.sort(convertedPs,new ReverseCompareElapsed());

@@ -11,12 +11,12 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
 
 @SuppressWarnings("serial")
-public class ServerServlet extends HttpServlet {
+public class ElapsedDescending extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html");
 		
-		//Get the data out of the datastore and sort it.
+		// Get the run from the datastore and sort it.
 		DatastoreService data = DatastoreServiceFactory.getDatastoreService();
 		Query q = new Query("Message");
 		List<Entity> m = data.prepare(q).asList(FetchOptions.Builder.withDefaults());
@@ -24,9 +24,9 @@ public class ServerServlet extends HttpServlet {
 		for (Entity p : m) {
 			message = (String) p.getProperty("message");
 		}
-		message = Participant.sortByElapsed(message);
+		message = Participant.ReverseSortByElapsed(message);
 
-		// Print the data.
+		// Print out the run.
 		String table = "<head><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"></head>" +
 				"<table id='tab'>" +
 				"<caption>EVENT</caption>" +
@@ -35,7 +35,7 @@ public class ServerServlet extends HttpServlet {
 				"<th><a id='bibs' href=\"server\"> BIB </a></th>" +
 				"<th><a href=\"server\"> START </a></th>" +
 				"<th><a href=\"server\"> FINISH </a></th>" +
-				"<th><a href=\"elapseddescending\"> ELAPSED </a></th>" +
+				"<th><a href=\"server\"> ELAPSED </a></th>" +
 				"</tr>" +
 				"</table>" +
 				"<script>" +
@@ -67,16 +67,6 @@ public class ServerServlet extends HttpServlet {
 				"</script>";
 
 		resp.getWriter().println(table);
-	}
-
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/html");
-		String data = req.getParameter("data");
-		
-		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-		Entity e = new Entity("Message");
-		e.setProperty("message", data);
-		ds.put(e);
 	}
 }
 
