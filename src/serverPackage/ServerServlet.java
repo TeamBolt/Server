@@ -16,9 +16,20 @@ public class ServerServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html");
 		
-		// We bypass the datastore on this page so that results can be updated more quickly.
-		String message = Participant.sortByElapsed(fastData);
-		
+		String message = "";
+		// We bypass the datastore if we can on this page so that results can be updated more quickly.
+		if (fastData != null) {
+			message = fastData;
+		} else {
+			DatastoreService data = DatastoreServiceFactory.getDatastoreService();
+			Query q = new Query("Message");
+			List<Entity> results = data.prepare(q).asList(FetchOptions.Builder.withDefaults());
+			if ( !results.isEmpty() ) {
+				Entity e = results.get(results.size()-1);
+				message = (String) e.getProperty("message");
+			}
+		}
+		message = Participant.sortByElapsed(message);
 
 		// Print the data.
 		String table = "<head><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"></head>" +

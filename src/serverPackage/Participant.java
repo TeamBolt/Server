@@ -62,7 +62,7 @@ public class Participant {
 	public static String sortByElapsed(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
-		Collections.sort(convertedPs,new CompareElapsed());
+		if (convertedPs != null) Collections.sort(convertedPs,new CompareElapsed());
 
 		//list of objects to json
 		return new Gson().toJson(convertedPs);
@@ -71,7 +71,7 @@ public class Participant {
 	public static String ReverseSortByElapsed(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
-		Collections.sort(convertedPs,new ReverseCompareElapsed());
+		if (convertedPs != null) Collections.sort(convertedPs,new ReverseCompareElapsed());
 
 		//list of objects to json
 		return new Gson().toJson(convertedPs);
@@ -81,7 +81,7 @@ public class Participant {
 	public static String sortByBib(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
-		Collections.sort(convertedPs,new CompareBib());
+		if (convertedPs != null) Collections.sort(convertedPs,new CompareBib());
 
 		//list of objects to json
 		return new Gson().toJson(convertedPs);
@@ -90,7 +90,7 @@ public class Participant {
 	public static String ReverseSortByBib(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
-		Collections.sort(convertedPs,new ReverseCompareBib());
+		if (convertedPs != null) Collections.sort(convertedPs,new ReverseCompareBib());
 
 		//list of objects to json
 		return new Gson().toJson(convertedPs);
@@ -99,7 +99,7 @@ public class Participant {
 	public static String sortByStart(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
-		Collections.sort(convertedPs,new CompareStart());
+		if (convertedPs != null) Collections.sort(convertedPs,new CompareStart());
 
 		//list of objects to json
 		return new Gson().toJson(convertedPs);
@@ -108,7 +108,7 @@ public class Participant {
 	public static String ReverseSortByStart(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
-		Collections.sort(convertedPs,new ReverseCompareStart());
+		if (convertedPs != null) Collections.sort(convertedPs,new ReverseCompareStart());
 
 		//list of objects to json
 		return new Gson().toJson(convertedPs);
@@ -117,7 +117,7 @@ public class Participant {
 	public static String sortByFinish(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
-		Collections.sort(convertedPs,new CompareFinish());
+		if (convertedPs != null) Collections.sort(convertedPs,new CompareFinish());
 
 		//list of objects to json
 		return new Gson().toJson(convertedPs);
@@ -126,7 +126,7 @@ public class Participant {
 	public static String ReverseSortByFinish(String str){
 		//list of json to object
 		ArrayList<Participant> convertedPs = new Gson().fromJson(str, new TypeToken<Collection<Participant>>(){}.getType());
-		Collections.sort(convertedPs,new ReverseCompareFinish());
+		if (convertedPs != null) Collections.sort(convertedPs,new ReverseCompareFinish());
 
 		//list of objects to json
 		return new Gson().toJson(convertedPs);
