@@ -275,7 +275,7 @@ public class Participant {
 		public int compare(Participant p1, Participant p2) {
 			long t1, t2;
 			
-			// time, dnf, waiting
+			// time, dnf, running, waiting
 			
 			try {
 				t1 = convertStringToLong(p1.finish);
@@ -288,10 +288,18 @@ public class Participant {
 						return -1;
 					}
 				} else if(p2.finish.equals("DNF")){
-					if(p1.equals("WAITING")){
-						return 1;
-					} else {
+					if(p1.equals("DNF")){
 						return 0;
+					} else {
+						return 1;
+					}
+				} else if(p2.finish.equals("RUNNING")){
+					if(p1.equals("RUNNING")){
+						return 0;
+					} else if(p1.equals("WAITING")){
+						return 1;
+					} else{
+						return -1;
 					}
 				} else { //p2 is a time
 					return 1;
@@ -330,10 +338,18 @@ public class Participant {
 						return 1;
 					}
 				} else if(p2.finish.equals("DNF")){
-					if(p1.equals("WAITING")){
-						return -1;
-					} else {
+					if(p1.equals("DNF")){
 						return 0;
+					} else {
+						return -1;
+					}
+				} else if(p2.finish.equals("RUNNING")){
+					if(p1.equals("RUNNING")){
+						return 0;
+					} else if(p1.equals("WAITING")){
+						return -1;
+					} else{
+						return 1;
 					}
 				} else { //p2 is a time
 					return -1;
