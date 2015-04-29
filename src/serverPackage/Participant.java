@@ -13,10 +13,10 @@ import java.util.Date;
 
 // I think some of us have a different configuration, so use whichever of these two
 // makes eclipse less mad.
-import com.google.appengine.repackaged.com.google.gson.Gson;
-import com.google.appengine.repackaged.com.google.gson.reflect.TypeToken;
-//import com.google.gson.Gson;
-//import com.google.gson.reflect.TypeToken;
+//import com.google.appengine.repackaged.com.google.gson.Gson;
+//import com.google.appengine.repackaged.com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Participant {
 	private String event, run,bib,start,finish,elapsed;
@@ -226,10 +226,15 @@ public class Participant {
 
 			try {
 				t1 = convertStringToLong(p1.start);
+			} catch(NumberFormatException e) {
+				if(p2.start.equals("WAITING")) return 0; // both waiting
+				return -1; // p1 is waiting and p2 is not
+			} 
+			
+			try{
 				t2 = convertStringToLong(p2.start);
 			} catch(NumberFormatException e){
-				e.printStackTrace();
-				return 0;
+				return -1; // we know that p1 is not waiting
 			}
 
 			if(t1 < t2) return -1;
@@ -243,12 +248,19 @@ public class Participant {
 		@Override
 		public int compare(Participant p1, Participant p2) {
 			long t1, t2;
-
+			
+			
 			try {
 				t1 = convertStringToLong(p1.start);
+			} catch(NumberFormatException e) {
+				if(p2.start.equals("WAITING")) return 0; // both waiting
+				return 1; // p1 is waiting and p2 is not
+			} 
+			
+			try{
 				t2 = convertStringToLong(p2.start);
 			} catch(NumberFormatException e){
-				return 0;
+				return 1; // we know that p1 is not waiting
 			}
 
 			if(t1 < t2) return 1;
@@ -262,17 +274,37 @@ public class Participant {
 		@Override
 		public int compare(Participant p1, Participant p2) {
 			long t1, t2;
-
+			
+			// time, dnf, waiting
+			
 			try {
 				t1 = convertStringToLong(p1.finish);
+			} catch(NumberFormatException e) {
+
+				if(p2.finish.equals("WAITING")){
+					if(p1.equals("WAITING")){
+						return 0;
+					} else {
+						return -1;
+					}
+				} else if(p2.finish.equals("DNF")){
+					if(p1.equals("WAITING")){
+						return 1;
+					} else {
+						return 0;
+					}
+				} else { //p2 is a time
+					return 1;
+				}
+
+			} 
+			
+			try{
 				t2 = convertStringToLong(p2.finish);
-
-
 			} catch(NumberFormatException e){
-				e.printStackTrace();
-				return 0;
+				return -1;
 			}
-
+			
 			if(t1 < t2) return -1;
 			if(t1 > t2) return 1;
 			return 0;
@@ -285,12 +317,34 @@ public class Participant {
 		public int compare(Participant p1, Participant p2) {
 			long t1, t2;
 
+			// waiting,dnf,time
+
 			try {
 				t1 = convertStringToLong(p1.finish);
+			} catch(NumberFormatException e) {
+
+				if(p2.finish.equals("WAITING")){
+					if(p1.equals("WAITING")){
+						return 0;
+					} else {
+						return 1;
+					}
+				} else if(p2.finish.equals("DNF")){
+					if(p1.equals("WAITING")){
+						return -1;
+					} else {
+						return 0;
+					}
+				} else { //p2 is a time
+					return -1;
+				}
+
+			} 
+
+			try{
 				t2 = convertStringToLong(p2.finish);
 			} catch(NumberFormatException e){
-				e.printStackTrace();
-				return 0;
+				return 1;
 			}
 
 			if(t1 < t2) return 1;
