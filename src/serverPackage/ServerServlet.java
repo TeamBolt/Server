@@ -77,29 +77,34 @@ public class ServerServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html");
 		String data = req.getParameter("data");
+		
+		// If data is identical with the cached data there's nothing to do here.
+		if ( data == null || ( fastData != null && data.equals(fastData) ) ) return;
 		fastData = data;
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		
 
 		Query q = new Query("Message");
 		List<Entity> list = ds.prepare(q).asList(FetchOptions.Builder.withDefaults());
+		String last = null;
 		if ( !list.isEmpty() ) {
 			// Look at the last thing in the datastore
 			Entity laste = list.get(list.size()-1);
-			String last = (String) laste.getProperty("message");
-			
-			// If it's identical to the new data, do nothing, otherwise
-			// clear out old data and create new data.
-			if ( !last.equals(data) ) {
-				for (Entity p : list) {
-					ds.delete(p.getKey());
-				}
-				
-				Entity e = new Entity("Message");
-				e.setProperty("message", data);
-				ds.put(e);
+			last = (String) laste.getProperty("message");
+		}
+		
+		// If it's identical to the new data, do nothing, otherwise
+		// clear out old data and create new data.
+		if ( last == null || !last.equals(data) ) {
+			for (Entity p : list) {
+				ds.delete(p.getKey());
 			}
+			
+			Entity e = new Entity("Message");
+			e.setProperty("message", data);
+			ds.put(e);
 		}
 	}
 }
+
 
