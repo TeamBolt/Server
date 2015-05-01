@@ -10,6 +10,12 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
 
+/**
+ * Class is used for sorting competitors by elapsed ascending.
+ * Also used to accept data and populate data store.
+ * 
+ * @author Kevari Francis & Chris Harmon
+ */
 @SuppressWarnings("serial")
 public class ServerServlet extends HttpServlet {
 	private String fastData;
